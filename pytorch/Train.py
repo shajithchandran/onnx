@@ -89,4 +89,3 @@ x = custdata.getrawinputs()
 x=torch.from_numpy(x)
 
 torch_output = torch.onnx._export(net, x, "../models/cust_credit.onnx", export_params=True)
-print(torch_output)
