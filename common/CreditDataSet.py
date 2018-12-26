@@ -28,3 +28,6 @@ class CreditDataSet(Dataset):
 
     def getrawinputs(self):
         return self.customer_records.loc[:, self.customer_records.columns != '25'].values
+
+    def getrawoutputs(self):
+        return self.customer_records['25'].values
