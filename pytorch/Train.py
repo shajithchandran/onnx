@@ -2,14 +2,16 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
-import CreditDataSet as CD
 import numpy as np
 from torch.utils.data.sampler import SubsetRandomSampler
+import sys
+sys.path.append('../')
+import common.CreditDataSet as CD
 
 epoch = 50
 
 
-torch.set_default_tensor_type('torch.DoubleTensor')
+#torch.set_default_tensor_type('torch.DoubleTensor')
 
 class Net(nn.Module):
     def __init__(self):
@@ -24,10 +26,10 @@ class Net(nn.Module):
         x = F.relu(self.fc1(x))
         x = self.dropout(x)
         x = F.relu(self.fc2(x))
-        x = F.sigmoid(self.fc3(x))
+        x = torch.sigmoid(self.fc3(x))
         return x
 
-custdata=CD.CreditDataSet("./train.csv")
+custdata=CD.CreditDataSet("../data/train.csv")
 datalen = len(custdata)
 split_pc = 0.2
 split_index = int( split_pc * datalen)
@@ -86,4 +88,5 @@ print ("Correct Prediction: ", correct.item(), "\nTotal Samples", total)
 x = custdata.getrawinputs()
 x=torch.from_numpy(x)
 
-torch.onnx._export(net, x, "cust_credit.onnx", export_params=True)
+torch_output = torch.onnx._export(net, x, "../models/cust_credit.onnx", export_params=True)
+print(torch_output)
