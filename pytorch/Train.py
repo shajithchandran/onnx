@@ -67,6 +67,8 @@ for loopidx in range(epoch):
                   (loopidx + 1, i + 1, running_loss / 20))
             running_loss = 0.0
 
+net.train(False)
+
 correct = 0
 total = 0
 with torch.no_grad():
@@ -80,3 +82,8 @@ with torch.no_grad():
         correct += torch.sum(result)
 
 print ("Correct Prediction: ", correct.item(), "\nTotal Samples", total)
+
+x = custdata.getrawinputs()
+x=torch.from_numpy(x)
+
+torch.onnx._export(net, x, "cust_credit.onnx", export_params=True)
