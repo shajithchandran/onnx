@@ -23,7 +23,7 @@ correct = 0
 total = 0
 for i in diff[0]:
     total += 1
-    if i <0.5:
+    if i <0.2:
         correct += 1
 
 print("Correct: ", correct, " Total: " , total)
