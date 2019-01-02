@@ -17,9 +17,7 @@ label_name = rtmodel.get_outputs()[0].name
 
 predicted_output = rtmodel.run([label_name], {input_name: inputs})
 
-print (predicted_output)
-
-diff = abs(expected_output - predicted_output[0])
+diff = abs(expected_output - predicted_output)
 
 correct = 0
 total = 0

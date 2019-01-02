@@ -17,7 +17,7 @@ lmodel = onnx.load("../models/cust_credit.onnx")
 
 predicted_output = caffe2.python.onnx.backend.run_model(lmodel, inputs)
 
-diff = abs(expected_output - predicted_output[0])
+diff = abs(expected_output - predicted_output)
 
 correct = 0
 total = 0

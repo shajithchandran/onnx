@@ -16,18 +16,19 @@ class CreditDataSet(Dataset):
 
         #For now, lets get the transformed data directly.
         self.customer_records = pd.read_csv(csv_file)
-        self.customer_records = self.customer_records.apply(np.float32) #Caffe2 onnx doesn't handle double
-        self.recordlen = len(self.customer_records.iloc[0])
+        self.customer_records = self.customer_records.apply(np.float32).values #Caffe2 onnx doesn't handle double
+        self.inputs = self.customer_records[:,:-1]
+        self.labels = self.customer_records[:,-1:]
 
     def __len__(self):
         return len(self.customer_records)
 
     def __getitem__(self, idx):
-        t = (self.customer_records.iloc[idx,].values[:self.recordlen-1], self.customer_records.iloc[idx,].values[self.recordlen-1:])
+        t = (self.inputs[idx], self.labels[idx])
         return t
 
     def getrawinputs(self):
-        return self.customer_records.loc[:, self.customer_records.columns != '25'].values
+        return self.inputs
 
     def getrawoutputs(self):
-        return self.customer_records['25'].values
+        return self.labels
