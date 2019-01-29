@@ -88,4 +88,6 @@ print ("Correct Prediction: ", correct.item(), "\nTotal Samples", total)
 x = custdata.getrawinputs()
 x=torch.from_numpy(x)
 
+#Saving in both the formats.
 torch_output = torch.onnx._export(net, x, "../models/cust_credit.onnx", export_params=True)
+torch.save(net.state_dict(), "../models/model.pt")
